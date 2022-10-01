@@ -5,4 +5,4 @@ const Gameboard = () => {
   };
   return { board, receiveAttack };
 };
-export default Gameboard;
+module.exports = Gameboard;
