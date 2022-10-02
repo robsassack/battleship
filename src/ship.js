@@ -1,6 +1,9 @@
 const Ship = (length) => {
   const hits = Array(length).fill(false);
   const hit = (num) => {
+    if (num >= length) {
+      throw new Error('Hit number too big');
+    }
     hits[num] = true;
   };
   const isSunk = () => {
@@ -9,6 +12,8 @@ const Ship = (length) => {
     }
     return true;
   };
-  return { length, hit, isSunk };
+  return {
+    length, hit, hits, isSunk,
+  };
 };
 module.exports = Ship;

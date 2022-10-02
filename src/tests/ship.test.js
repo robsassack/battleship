@@ -19,3 +19,8 @@ test('ship with 2 hits isn\'t sunk', () => {
   newShip.hit(1);
   expect(newShip.isSunk()).toBe(false);
 });
+
+test('hit with bigger number than ship length throws error', () => {
+  const newShip = ship(3);
+  expect(() => newShip.hit(3)).toThrow();
+});
