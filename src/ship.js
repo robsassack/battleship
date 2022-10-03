@@ -1,8 +1,8 @@
 const Ship = (length) => {
   const hits = Array(length).fill(false);
   const hit = (num) => {
-    if (num >= length) {
-      throw new Error('Hit number too big');
+    if (num >= length || num < 0) {
+      throw new Error('Invalid hit index');
     }
     hits[num] = true;
   };
