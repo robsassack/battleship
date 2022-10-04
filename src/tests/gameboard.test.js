@@ -8,6 +8,16 @@ test('ship is placed on gameboard', () => {
   expect(newGameboard.board[0][0][0]).toBe(newShip);
 });
 
+test('multiple ships placed on gameboard', () => {
+  const newGameboard = gameboard();
+  const newShip = ship(3);
+  const newShip2 = ship(4);
+  newGameboard.placeShip(newShip, 0, 0, 'horizontal');
+  newGameboard.placeShip(newShip2, 0, 3, 'horizontal');
+  expect(newGameboard.board[0][0][0]).toBe(newShip);
+  expect(newGameboard.board[0][3][0]).toBe(newShip2);
+});
+
 test('do not allow ships to overlap', () => {
   const newGameboard = gameboard();
   const ship1 = ship(3);

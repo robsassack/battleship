@@ -14,6 +14,8 @@ const game = () => {
   computer.playerBoard.placeShip(ship(4), 0, 0, 'vertical');
 
   const renderBoard = (board, container) => {
+    const containerContent = container;
+    containerContent.textContent = '';
     board.forEach((row, x) => {
       const rowDiv = document.createElement('div');
       rowDiv.classList.add('row');
