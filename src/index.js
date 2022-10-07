@@ -51,6 +51,21 @@ const game = () => {
   renderBoard(human.playerBoard.board, playerBoard);
   renderBoard(computer.playerBoard.board, computerBoard);
 
+  // computer makes a random move
+  const computerTurn = (board, container) => {
+    const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    const x = randomMove[0];
+    const y = randomMove[1];
+    board.receiveAttack(x, y);
+    renderBoard(board.board, container);
+    availableMoves.splice(availableMoves.indexOf(randomMove), 1);
+    if (board.allSunk()) {
+      alert('Computer wins!');
+      const clone = computerBoard.cloneNode(true);
+      computerBoard.parentNode.replaceChild(clone, computerBoard);
+    }
+  };
+
   // allow player to click on board to send move
   const playerTurn = (board, container) => {
     const containerContent = container;
@@ -63,31 +78,17 @@ const game = () => {
         renderBoard(board.board, container);
         if (board.allSunk()) {
           alert('You win!');
+          const clone = computerBoard.cloneNode(true);
+          computerBoard.parentNode.replaceChild(clone, computerBoard);
         } else {
-          // proceed to computer turn
+          computerTurn(human.playerBoard, playerBoard);
         }
       }
     });
   };
 
-  // computer makes a random move
-  const computerTurn = (board, container) => {
-    const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
-    const x = randomMove[0];
-    const y = randomMove[1];
-    board.receiveAttack(x, y);
-    renderBoard(board.board, container);
-    availableMoves.splice(availableMoves.indexOf(randomMove), 1);
-    if (board.allSunk()) {
-      alert('Computer wins!');
-    } else {
-      // proceed to player turn
-    }
-  };
-
-  // standard turn for game
+  // start turn for game
   playerTurn(computer.playerBoard, computerBoard);
-  // computerTurn(human.playerBoard, playerBoard);
 };
 
 game();
