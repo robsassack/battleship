@@ -54,14 +54,19 @@ const game = () => {
   // allow player to click on board to send move
   const playerTurn = (board, container) => {
     const containerContent = container;
-    containerContent.childNodes.forEach((row, x) => {
-      row.childNodes.forEach((cell, y) => {
-        cell.addEventListener('click', () => {
-          board.receiveAttack(x, y);
-          renderBoard(board.board, container);
-          return 1;
-        });
-      });
+    containerContent.addEventListener('click', (e) => {
+      if (e.target.classList.contains('cell')) {
+        // get coordinates of cell clicked
+        const x = [...e.target.parentNode.parentNode.children].indexOf(e.target.parentNode);
+        const y = [...e.target.parentNode.children].indexOf(e.target);
+        board.receiveAttack(x, y);
+        renderBoard(board.board, container);
+        if (board.allSunk()) {
+          alert('You win!');
+        } else {
+          // proceed to computer turn
+        }
+      }
     });
   };
 
@@ -73,12 +78,16 @@ const game = () => {
     board.receiveAttack(x, y);
     renderBoard(board.board, container);
     availableMoves.splice(availableMoves.indexOf(randomMove), 1);
-    return 1;
+    if (board.allSunk()) {
+      alert('Computer wins!');
+    } else {
+      // proceed to player turn
+    }
   };
 
   // standard turn for game
   playerTurn(computer.playerBoard, computerBoard);
-  computerTurn(human.playerBoard, playerBoard);
+  // computerTurn(human.playerBoard, playerBoard);
 };
 
 game();
