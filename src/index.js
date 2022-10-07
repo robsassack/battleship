@@ -12,8 +12,12 @@ const game = () => {
   const computer = player();
 
   // set boards up
-  human.playerBoard.placeShip(ship(4), 3, 3, 'horizontal');
-  computer.playerBoard.placeShip(ship(4), 4, 5, 'vertical');
+  human.playerBoard.placeShip(ship(3), 3, 3, 'horizontal');
+  computer.playerBoard.placeShip(ship(5), 4, 2, 'vertical');
+  computer.playerBoard.placeShip(ship(4), 2, 2, 'horizontal');
+  computer.playerBoard.placeShip(ship(3), 7, 7, 'horizontal');
+  computer.playerBoard.placeShip(ship(3), 0, 0, 'vertical');
+  computer.playerBoard.placeShip(ship(2), 5, 6, 'vertical');
 
   // available moves for computer
   const availableMoves = [];
@@ -38,9 +42,10 @@ const game = () => {
           cellDiv.classList.add('ship');
         } if (board[x][y] === 1) {
           cellDiv.classList.add('miss');
+          cellDiv.innerText = '•';
         } if (board[x][y] === 'X') {
-          cellDiv.classList.remove('ship');
           cellDiv.classList.add('hit');
+          cellDiv.innerText = '•';
         }
       });
       container.appendChild(rowDiv);
