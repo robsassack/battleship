@@ -11,13 +11,39 @@ const game = () => {
   const human = player();
   const computer = player();
 
-  // set boards up
+  // random ship placement
+  const randomPlace = (board, size) => {
+    let randomOrientation = Math.floor(Math.random() * 2);
+    if (randomOrientation === 0) {
+      randomOrientation = 'horizontal';
+    } else {
+      randomOrientation = 'vertical';
+    }
+    let x = 0;
+    let y = 0;
+    if (randomOrientation === 'horizontal') {
+      x = Math.floor(Math.random() * (10 - size));
+      y = Math.floor(Math.random() * 10);
+    } else {
+      x = Math.floor(Math.random() * 10);
+      y = Math.floor(Math.random() * (10 - size));
+    }
+    try {
+      board.placeShip(ship(size), x, y, randomOrientation);
+    } catch (err) {
+      randomPlace(board, size);
+    }
+  };
+
+  // set player board up
   human.playerBoard.placeShip(ship(3), 3, 3, 'horizontal');
-  computer.playerBoard.placeShip(ship(5), 4, 2, 'vertical');
-  computer.playerBoard.placeShip(ship(4), 2, 2, 'horizontal');
-  computer.playerBoard.placeShip(ship(3), 7, 7, 'horizontal');
-  computer.playerBoard.placeShip(ship(3), 0, 0, 'vertical');
-  computer.playerBoard.placeShip(ship(2), 5, 6, 'vertical');
+
+  // place random ships for computer
+  randomPlace(computer.playerBoard, 5);
+  randomPlace(computer.playerBoard, 4);
+  randomPlace(computer.playerBoard, 3);
+  randomPlace(computer.playerBoard, 3);
+  randomPlace(computer.playerBoard, 2);
 
   // available moves for computer
   const availableMoves = [];
@@ -38,7 +64,7 @@ const game = () => {
         const cellDiv = document.createElement('div');
         cellDiv.classList.add('cell');
         rowDiv.appendChild(cellDiv);
-        if (board[x][y] !== 0 && human.playerBoard.board[x][y] !== 'X') {
+        if (board[x][y] !== 0 && board[x][y] !== 'X') {
           cellDiv.classList.add('ship');
         } if (board[x][y] === 1) {
           cellDiv.classList.add('miss');
