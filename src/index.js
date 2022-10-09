@@ -3,10 +3,10 @@ import './style.css';
 const ship = require('./ship');
 const player = require('./player');
 
-const playerBoard = document.querySelector('#playerBoard');
-const computerBoard = document.querySelector('#computerBoard');
-
 const game = () => {
+  const playerBoard = document.querySelector('#playerBoard');
+  const computerBoard = document.querySelector('#computerBoard');
+
   // creation of players
   const human = player();
   const computer = player();
@@ -36,7 +36,11 @@ const game = () => {
   };
 
   // set player board up
-  human.playerBoard.placeShip(ship(3), 3, 3, 'horizontal');
+  randomPlace(human.playerBoard, 5);
+  randomPlace(human.playerBoard, 4);
+  randomPlace(human.playerBoard, 3);
+  randomPlace(human.playerBoard, 3);
+  randomPlace(human.playerBoard, 2);
 
   // place random ships for computer
   randomPlace(computer.playerBoard, 5);
@@ -82,6 +86,27 @@ const game = () => {
   renderBoard(human.playerBoard.board, playerBoard);
   renderBoard(computer.playerBoard.board, computerBoard);
 
+  // display winner screen with restart button
+  const displayWinner = (winner) => {
+    const winnerScreen = document.createElement('div');
+    winnerScreen.classList.add('winner-screen');
+    if (winner === 'human') {
+      winnerScreen.appendChild(document.createElement('p'));
+      winnerScreen.querySelector('p').innerText = 'You win!';
+    } else if (winner === 'computer') {
+      winnerScreen.appendChild(document.createElement('p'));
+      winnerScreen.querySelector('p').innerText = 'Computer wins!';
+    }
+    const restartButton = document.createElement('button');
+    restartButton.innerText = 'Play again?';
+    restartButton.addEventListener('click', () => {
+      winnerScreen.remove();
+      game();
+    });
+    winnerScreen.appendChild(restartButton);
+    document.querySelector('body').appendChild(winnerScreen);
+  };
+
   // computer makes a random move
   const computerTurn = (board, container) => {
     const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
@@ -91,9 +116,9 @@ const game = () => {
     renderBoard(board.board, container);
     availableMoves.splice(availableMoves.indexOf(randomMove), 1);
     if (board.allSunk()) {
-      alert('Computer wins!');
       const clone = computerBoard.cloneNode(true);
       computerBoard.parentNode.replaceChild(clone, computerBoard);
+      displayWinner('computer');
     }
   };
 
@@ -108,9 +133,9 @@ const game = () => {
         board.receiveAttack(x, y);
         renderBoard(board.board, container);
         if (board.allSunk()) {
-          alert('You win!');
           const clone = computerBoard.cloneNode(true);
           computerBoard.parentNode.replaceChild(clone, computerBoard);
+          displayWinner('human');
         } else {
           computerTurn(human.playerBoard, playerBoard);
         }

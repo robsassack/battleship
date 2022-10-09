@@ -53,3 +53,31 @@ h3 {
   color: rgb(255, 0, 0);
   background-color: rgb(148, 148, 148);
 }
+
+.winner-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: white;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 25%;
+  width: 200px;
+  text-align: center;
+  padding: 20px;
+}
+
+.winner-screen p {
+  font-size: 2em;
+  font-weight: 1000;
+}
+
+.winner-screen button {
+  font-size: 1em;
+  padding: 5px;
+}
