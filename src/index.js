@@ -19,6 +19,31 @@ const game = () => {
   const human = player();
   const computer = player();
 
+  // draw the boards on the page
+  const renderBoard = (board, container) => {
+    const containerContent = container;
+    containerContent.textContent = '';
+    board.forEach((row, x) => {
+      const rowDiv = document.createElement('div');
+      rowDiv.classList.add('row');
+      row.forEach((cell, y) => {
+        const cellDiv = document.createElement('div');
+        cellDiv.classList.add('cell');
+        rowDiv.appendChild(cellDiv);
+        if (board[x][y] !== 0 && board[x][y] !== 'X') {
+          cellDiv.classList.add('ship');
+        } if (board[x][y] === 1) {
+          cellDiv.classList.add('miss');
+          cellDiv.innerText = '•';
+        } if (board[x][y][0] === 'X') {
+          cellDiv.classList.add('hit');
+          cellDiv.innerText = '•';
+        }
+      });
+      container.appendChild(rowDiv);
+    });
+  };
+
   // random ship placement
   const randomPlace = (board, size) => {
     let randomOrientation = Math.floor(Math.random() * 2);
@@ -64,31 +89,6 @@ const game = () => {
       availableMoves.push([i, j]);
     }
   }
-
-  // draw the boards on the page
-  const renderBoard = (board, container) => {
-    const containerContent = container;
-    containerContent.textContent = '';
-    board.forEach((row, x) => {
-      const rowDiv = document.createElement('div');
-      rowDiv.classList.add('row');
-      row.forEach((cell, y) => {
-        const cellDiv = document.createElement('div');
-        cellDiv.classList.add('cell');
-        rowDiv.appendChild(cellDiv);
-        if (board[x][y] !== 0 && board[x][y] !== 'X') {
-          cellDiv.classList.add('ship');
-        } if (board[x][y] === 1) {
-          cellDiv.classList.add('miss');
-          cellDiv.innerText = '•';
-        } if (board[x][y][0] === 'X') {
-          cellDiv.classList.add('hit');
-          cellDiv.innerText = '•';
-        }
-      });
-      container.appendChild(rowDiv);
-    });
-  };
 
   // initial display of both boards
   renderBoard(human.playerBoard.board, playerBoard);
