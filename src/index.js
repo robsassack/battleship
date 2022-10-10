@@ -7,6 +7,14 @@ const game = () => {
   const playerBoard = document.querySelector('#playerBoard');
   const computerBoard = document.querySelector('#computerBoard');
 
+  // reset message display
+  const playerMessage = document.querySelector('.player-message');
+  playerMessage.innerText = '';
+  playerMessage.style.visibility = 'hidden';
+  const computerMessage = document.querySelector('.computer-message');
+  computerMessage.innerText = '';
+  computerMessage.style.visibility = 'hidden';
+
   // creation of players
   const human = player();
   const computer = player();
@@ -73,7 +81,7 @@ const game = () => {
         } if (board[x][y] === 1) {
           cellDiv.classList.add('miss');
           cellDiv.innerText = '•';
-        } if (board[x][y] === 'X') {
+        } if (board[x][y][0] === 'X') {
           cellDiv.classList.add('hit');
           cellDiv.innerText = '•';
         }
@@ -113,6 +121,18 @@ const game = () => {
     const x = randomMove[0];
     const y = randomMove[1];
     board.receiveAttack(x, y);
+
+    const messageDisplay = document.querySelector('.player-message');
+    messageDisplay.innerText = '';
+    messageDisplay.style.visibility = 'hidden';
+    // display message that a ship has been sunk
+    if (board.board[x][y][0] === 'X') {
+      if (board.board[x][y][1].isSunk()) {
+        messageDisplay.innerText = `Computer sunk a ${board.board[x][y][1].length} length ship!`;
+        messageDisplay.style.visibility = 'visible';
+      }
+    }
+
     renderBoard(board.board, container);
     availableMoves.splice(availableMoves.indexOf(randomMove), 1);
     if (board.allSunk()) {
@@ -131,6 +151,18 @@ const game = () => {
         const x = [...e.target.parentNode.parentNode.children].indexOf(e.target.parentNode);
         const y = [...e.target.parentNode.children].indexOf(e.target);
         board.receiveAttack(x, y);
+
+        const messageDisplay = document.querySelector('.computer-message');
+        messageDisplay.innerText = '';
+        messageDisplay.style.visibility = 'hidden';
+        // display message that a ship has been sunk
+        if (board.board[x][y][0] === 'X') {
+          if (board.board[x][y][1].isSunk()) {
+            messageDisplay.innerText = `You sunk a ${board.board[x][y][1].length} length ship!`;
+            messageDisplay.style.visibility = 'visible';
+          }
+        }
+
         renderBoard(board.board, container);
         if (board.allSunk()) {
           const clone = computerBoard.cloneNode(true);

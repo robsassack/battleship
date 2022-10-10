@@ -39,7 +39,7 @@ const Gameboard = () => {
       throw new Error('Space already attacked');
     } else {
       board[x][y][0].hit(board[x][y][1]);
-      board[x][y] = 'X';
+      board[x][y] = ['X', board[x][y][0]];
     }
   };
   const allSunk = () => {
