@@ -68,12 +68,27 @@ const game = () => {
     }
   };
 
+  // get coords for clicking on board
+  const playerPlace = (container, size, orientation) => {
+    const containerContent = container;
+    containerContent.addEventListener('click', (e) => {
+      if (e.target.classList.contains('cell')) {
+        // get coordinates of cell clicked
+        const x = [...e.target.parentNode.parentNode.children].indexOf(e.target.parentNode);
+        const y = [...e.target.parentNode.children].indexOf(e.target);
+        human.playerBoard.placeShip(ship(size), x, y, orientation);
+        renderBoard(human.playerBoard.board, playerBoard);
+      }
+    });
+    return 1;
+  };
+
   // drag and drop interface for player ship placement
   const playerSetup = () => {
     const compContainer = document.querySelector('.computerContainer');
     compContainer.style.display = 'none';
 
-    const ships = document.querySelectorAll('.newShip');
+    playerPlace(playerBoard, 5, 'horizontal');
   };
   playerSetup();
 
