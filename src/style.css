@@ -93,3 +93,13 @@ h3 {
   padding: 5px;
   visibility: hidden;
 }
+
+.shipList {
+  height: 350px;
+  width: 200px;
+  border: 1px solid black;
+}
+
+.newShip {
+  display: flex;
+}

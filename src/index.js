@@ -68,12 +68,14 @@ const game = () => {
     }
   };
 
-  // set player board up
-  randomPlace(human.playerBoard, 5);
-  randomPlace(human.playerBoard, 4);
-  randomPlace(human.playerBoard, 3);
-  randomPlace(human.playerBoard, 3);
-  randomPlace(human.playerBoard, 2);
+  // drag and drop interface for player ship placement
+  const playerSetup = () => {
+    const compContainer = document.querySelector('.computerContainer');
+    compContainer.style.display = 'none';
+
+    const ships = document.querySelectorAll('.newShip');
+  };
+  playerSetup();
 
   // place random ships for computer
   randomPlace(computer.playerBoard, 5);
