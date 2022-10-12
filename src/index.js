@@ -69,25 +69,27 @@ const game = () => {
   };
 
   const placement = [5, 4, 3, 3, 2];
-  const playerPlace = (container, orientation) => {
-    const containerContent = container;
-    containerContent.addEventListener('click', (e) => {
+  // drag and drop interface for player ship placement
+  const playerSetup = () => {
+    const compContainer = document.querySelector('.computerContainer');
+    const shipContainer = document.querySelector('.shipContainer');
+    shipContainer.style.display = 'block';
+    compContainer.style.display = 'none';
+    playerBoard.addEventListener('click', (e) => {
       if (e.target.classList.contains('cell')) {
         // get coordinates of cell clicked
         const x = [...e.target.parentNode.parentNode.children].indexOf(e.target.parentNode);
         const y = [...e.target.parentNode.children].indexOf(e.target);
-        human.playerBoard.placeShip(ship(placement[0]), x, y, orientation);
+        human.playerBoard.placeShip(ship(placement[0]), x, y, 'horizontal');
         renderBoard(human.playerBoard.board, playerBoard);
         placement.shift();
+        // if all ships placed, start game
+        if (placement.length === 0) {
+          compContainer.style.display = 'block';
+          shipContainer.style.display = 'none';
+        }
       }
     });
-  };
-
-  // drag and drop interface for player ship placement
-  const playerSetup = () => {
-    const compContainer = document.querySelector('.computerContainer');
-    compContainer.style.display = 'none';
-    playerPlace(playerBoard, 'horizontal');
   };
   playerSetup();
 
@@ -124,8 +126,7 @@ const game = () => {
     const restartButton = document.createElement('button');
     restartButton.innerText = 'Play again?';
     restartButton.addEventListener('click', () => {
-      winnerScreen.remove();
-      game();
+      window.location.reload();
     });
     winnerScreen.appendChild(restartButton);
     document.querySelector('body').appendChild(winnerScreen);
