@@ -68,19 +68,27 @@ const game = () => {
     }
   };
 
-  const placement = [5, 4, 3, 3, 2];
   // drag and drop interface for player ship placement
   const playerSetup = () => {
+    const placement = [5, 4, 3, 3, 2];
     const compContainer = document.querySelector('.computerContainer');
     const shipContainer = document.querySelector('.shipContainer');
+    const rotateBtn = document.querySelector('.rotate');
     shipContainer.style.display = 'block';
     compContainer.style.display = 'none';
+    rotateBtn.addEventListener('click', () => {
+      if (rotateBtn.innerText.toLowerCase() === 'horizontal') {
+        rotateBtn.innerText = 'Vertical';
+      } else {
+        rotateBtn.innerText = 'Horizontal';
+      }
+    });
     playerBoard.addEventListener('click', (e) => {
       if (e.target.classList.contains('cell')) {
         // get coordinates of cell clicked
         const x = [...e.target.parentNode.parentNode.children].indexOf(e.target.parentNode);
         const y = [...e.target.parentNode.children].indexOf(e.target);
-        human.playerBoard.placeShip(ship(placement[0]), x, y, 'horizontal');
+        human.playerBoard.placeShip(ship(placement[0]), x, y, rotateBtn.innerText.toLowerCase());
         renderBoard(human.playerBoard.board, playerBoard);
         placement.shift();
         // if all ships placed, start game
