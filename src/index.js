@@ -20,7 +20,7 @@ const game = () => {
   const computer = player();
 
   // draw the boards on the page
-  const renderBoard = (board, container) => {
+  const renderBoard = (board, container, showShip) => {
     const containerContent = container;
     containerContent.textContent = '';
     board.forEach((row, x) => {
@@ -30,14 +30,15 @@ const game = () => {
         const cellDiv = document.createElement('div');
         cellDiv.classList.add('cell');
         rowDiv.appendChild(cellDiv);
-        if (board[x][y] !== 0 && board[x][y] !== 'X') {
-          cellDiv.classList.add('ship');
-        } if (board[x][y] === 1) {
+        if (board[x][y] === 1) {
           cellDiv.classList.add('miss');
           cellDiv.innerText = '•';
-        } if (board[x][y][0] === 'X') {
+        } else if (board[x][y][0] === 'X') {
           cellDiv.classList.add('hit');
           cellDiv.innerText = '•';
+        } else if (board[x][y] !== 0 && board[x][y] !== 'X' && showShip) {
+          cellDiv.classList.add('cell');
+          cellDiv.classList.add('ship');
         }
       });
       container.appendChild(rowDiv);
@@ -89,7 +90,7 @@ const game = () => {
         const x = [...e.target.parentNode.parentNode.children].indexOf(e.target.parentNode);
         const y = [...e.target.parentNode.children].indexOf(e.target);
         human.playerBoard.placeShip(ship(placement[0]), x, y, rotateBtn.innerText.toLowerCase());
-        renderBoard(human.playerBoard.board, playerBoard);
+        renderBoard(human.playerBoard.board, playerBoard, true);
         placement.shift();
         // if all ships placed, start game
         if (placement.length === 0) {
@@ -117,8 +118,8 @@ const game = () => {
   }
 
   // initial display of both boards
-  renderBoard(human.playerBoard.board, playerBoard);
-  renderBoard(computer.playerBoard.board, computerBoard);
+  renderBoard(human.playerBoard.board, playerBoard, true);
+  renderBoard(computer.playerBoard.board, computerBoard, false);
 
   // display winner screen with restart button
   const displayWinner = (winner) => {
@@ -158,9 +159,11 @@ const game = () => {
       }
     }
 
-    renderBoard(board.board, container);
+    renderBoard(board.board, container, true);
     availableMoves.splice(availableMoves.indexOf(randomMove), 1);
     if (board.allSunk()) {
+      renderBoard(human.playerBoard.board, playerBoard, true);
+      renderBoard(computer.playerBoard.board, computerBoard, true);
       const clone = computerBoard.cloneNode(true);
       computerBoard.parentNode.replaceChild(clone, computerBoard);
       displayWinner('computer');
@@ -188,8 +191,10 @@ const game = () => {
           }
         }
 
-        renderBoard(board.board, container);
+        renderBoard(board.board, container, false);
         if (board.allSunk()) {
+          renderBoard(human.playerBoard.board, playerBoard, true);
+          renderBoard(computer.playerBoard.board, computerBoard, true);
           const clone = computerBoard.cloneNode(true);
           computerBoard.parentNode.replaceChild(clone, computerBoard);
           displayWinner('human');
