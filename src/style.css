@@ -1,6 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
 * {
   margin: 0;
   padding: 0;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-weight: 400;
 }
 
 body {
@@ -9,10 +13,14 @@ body {
 
 h1 {
   text-align: center;
+  padding-top: 10px;
+  font-size: 2.5em;
+  font-weight: 1000;
 }
 
 h3 {
   text-align: center;
+  padding-bottom: 5px;
 }
 
 #gameBoardsContainer {
@@ -21,6 +29,10 @@ h3 {
   flex-direction: row;
   justify-content: center;
   gap: 50px;
+}
+
+#playerBoard, #computerBoard {
+  box-shadow: 5px 5px;
 }
 
 .row {
@@ -95,11 +107,24 @@ h3 {
 }
 
 .shipList {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
   height: 350px;
   width: 200px;
   border: 1px solid black;
 }
 
+.shipList p {
+  padding: 0 10px;
+}
+
 .newShip {
   display: flex;
+  padding: 0 10px;
+}
+
+.shipList button {
+  width: 100px;
 }
